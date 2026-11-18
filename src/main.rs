@@ -1,5 +1,25 @@
 fn median(a: Vec<f32>) -> Option<f32> {
-    todo!();
+    if a.is_empty() {
+        return None
+    }
+    let mut b = a.clone();
+    if !b.is_sorted() {
+        b.sort_by(f32::total_cmp);
+    }
+    let length = b.len();
+    let mid = length/2;
+    let odd = !length.is_multiple_of(2);
+    let mut median =0.0f32;
+    let lower = *b.get(mid-1)?;
+    let upper = *b.get(mid)?;
+    if odd {
+        median = *b.get(mid)?;
+        println!("odd {median}" );
+    } else {
+
+        median = (*b.get(mid-1)?+*b.get(mid)?)/2.0f32;
+    }   println!("even {lower} + {upper} / 2 = {median}");
+    Some(median)
 }
 
 fn main() {
