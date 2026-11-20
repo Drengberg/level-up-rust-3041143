@@ -1,5 +1,8 @@
-fn sort_usernames<T: AsRef<str>>(usernames: &mut Vec<T>) {
-    todo!();
+fn sort_usernames<T: AsRef<str> + PartialOrd>(usernames: &mut Vec<T>) {
+    //let length = usernames.len();
+    //for _i in 1..=length {
+    usernames.sort_by(|a, b| a.partial_cmp(b).unwrap());
+    //}
 }
 
 fn main() {
