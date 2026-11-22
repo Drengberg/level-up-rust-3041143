@@ -16,6 +16,24 @@ enum Card {
     King,
 }
 
+impl Card {
+    fn to_int(&self) -> usize {
+        match self {
+            Card::Ace => 11,
+            Card::King => 10,
+            Card::Queen => 10,
+            Card::Jack => 10,
+            Card::Nine => 9,
+            Card::Eight => 8,
+            Card::Seven => 7,
+            Card::Six => 6,
+            Card::Five => 5,
+            Card::Four => 4,
+            Card::Three => 3,
+            Card::Two => 2
+        }
+    }
+}
 struct Hand {
     cards: Vec<Card>,
 }
@@ -32,8 +50,20 @@ impl Hand {
     }
 
     fn value(&self) -> usize {
-        // TODO: implement this method
-        0 
+        let mut value = 0usize;
+        let mut aces = 0usize;
+        for card in &self.cards {
+            value += card.to_int();
+            if *card == Card::Ace {
+                aces+=1;
+            }
+        }
+        for _index in 0..aces {
+            if value > 21 {
+                value-=10;
+            }
+        }
+        return value;
     }
 
     fn is_loosing_hand(&self) -> bool {
