@@ -1,9 +1,9 @@
+use chrono::{DateTime, Local};
 use chrono::{Duration, TimeZone};
-use chrono::{Date, Local};
 
 struct ImportantEvent {
     what: String,
-    when: Date<Local>,
+    when: DateTime<Local>,
 }
 
 trait Deadline {
@@ -12,16 +12,18 @@ trait Deadline {
 
 impl Deadline for ImportantEvent {
     fn is_passed(&self) -> bool {
-        todo!();
+        let passed = *&self.when < Local::now();
+        println!("Value: {}", passed);
+        passed
     }
 }
 
 fn main() {
     let missed_christmas = ImportantEvent {
         what: String::from("Christmas"),
-        when: Local.ymd(2020, 12, 25),
+        when: chrono::Local.with_ymd_and_hms(2026, 12, 24, 0, 0, 0).unwrap()
     };
-    
+
     if missed_christmas.is_passed() {
         println!("oh well, maybe next year");
     } else {
@@ -33,7 +35,7 @@ fn main() {
 fn in_past() {
     let event = ImportantEvent {
         what: String::from("friend's birthday"),
-        when: Local::today() - Duration::hours(25),
+        when: chrono::Local::now() - Duration::hours(25),
     };
 
     assert!(event.is_passed())
@@ -43,9 +45,8 @@ fn in_past() {
 fn in_future() {
     let event = ImportantEvent {
         what: String::from("friend's birthday"),
-        when: Local::today() + Duration::hours(25),
+        when: chrono::Local::now() + Duration::hours(25),
     };
 
     assert!(!event.is_passed())
 }
-
